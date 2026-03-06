@@ -1,0 +1,30 @@
+%TF.GenerationSoftware,KiCad,Pcbnew,9.0.7*%
+%TF.CreationDate,2026-03-06T08:43:20+05:30*%
+%TF.ProjectId,V2 Solenoid Engine PCB,56322053-6f6c-4656-9e6f-696420456e67,rev?*%
+%TF.SameCoordinates,Original*%
+%TF.FileFunction,NonPlated,1,2,NPTH,Drill*%
+%TF.FilePolarity,Positive*%
+%FSLAX46Y46*%
+G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
+G04 Created by KiCad (PCBNEW 9.0.7) date 2026-03-06 08:43:20*
+%MOMM*%
+%LPD*%
+G01*
+G04 APERTURE LIST*
+%TA.AperFunction,ComponentDrill*%
+%ADD10C,2.700000*%
+%TD*%
+%TA.AperFunction,ComponentDrill*%
+%ADD11C,3.000000*%
+%TD*%
+G04 APERTURE END LIST*
+D10*
+%TO.C,F1*%
+X142713776Y-64501429D03*
+D11*
+%TO.C,U1*%
+X117938776Y-95743929D03*
+X117938776Y-120253929D03*
+X164888776Y-95743929D03*
+X164888776Y-120253929D03*
+M02*

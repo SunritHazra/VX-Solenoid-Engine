@@ -306,7 +306,7 @@ For PlatformIO (VS Code): Use attached platformio.ini.
 
 ## Wiring & Connections
 
-Schematic (.kicad_sch) covers PCB internals and all connections.
+Schematic (.kicad_sch) covers PCB internals and all connections. There is also a wiring diagram pdf uploaded in Media folder.
 
 # Applications
 

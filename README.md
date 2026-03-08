@@ -54,36 +54,6 @@ IR Sensors → ESP32 → MOSFET Driver → Solenoid Coils → Plunger Motion →
 
 ---
 
-# Repository Structure
-
-
-V2-Solenoid-Engine
-│
-├── CAD
-│ ├── Fusion360 files
-│ └── STL exports
-│
-├── Electronics
-│ ├── KiCad PCB
-│ └── schematics
-│
-├── Firmware
-│ └── solenoid_engine.ino
-│
-├── Media
-│ └── wiring diagrams and renders
-│
-├── BOM
-│ └── bill_of_materials.csv
-│
-├── Assembly
-│ └── assembly-guide.md
-│
-└── README.md
-
-
----
-
 # Mechanical System
 
 ## Solenoid Cylinders

@@ -35,7 +35,7 @@ The engine demonstrates:
 * Embedded timing control
 * Modular CAD-driven mechanical design
 * Hybrid manufacturing (3D printing + CNC)
-* MOFSET Switching
+* MOSFET Switching
 
 
 

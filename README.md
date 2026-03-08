@@ -69,16 +69,6 @@ The plunger moves linearly inside the sleeve when the coil is energized.
 
 ---
 
-## Yoke Mechanism
-
-The plunger is connected to the crankshaft using a **yoke linkage**.
-
-This mechanism transfers linear motion from the plunger into rotational motion at the crankshaft.
-
-The yokes are designed with thicker walls to increase structural strength and provide space for the coil winding area.
-
----
-
 ## Crankshaft
 
 The crankshaft converts linear plunger motion into rotation.
@@ -176,7 +166,7 @@ Main power supply:
 Specifications:
 
 - 24 V output
-- high current capability for solenoid operation
+- 18.8 Ampere output
 
 Two voltage domains are used:
 

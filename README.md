@@ -285,7 +285,7 @@ Major components include:
 - CNC machined crankshaft
 
 A full BOM is provided separately in CSV format.
-Note: Certain parts are being sourced locally and are being paid by the creator, making if firstly noy possible to add any links and more importantly making it unnecessary to add any cost in the BOM that is to be granted from HCB.
+Note: Certain parts are being sourced locally and are being paid by the creator, initially not possible to provide links for locally-sourced components and more importantly making it unnecessary to add any cost in the BOM that is to be granted from HCB.
 
 ---
 

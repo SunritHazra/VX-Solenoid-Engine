@@ -1,366 +1,581 @@
 # V2 Solenoid Engine
 
-A **two-cylinder (V2) solenoid engine** that converts electrical energy into rotational mechanical motion using electromagnetic coils and a crankshaft mechanism.
 
-This project combines **mechanical design, electromagnetism, power electronics, and embedded control**.  
-The mechanical system is designed in CAD for **3D printing and CNC machining**, while control electronics are built around an **ESP32 microcontroller** with **infrared crankshaft position sensing**.
 
-The goal of this repository is to provide the **design files, electronics, firmware, and documentation required to reproduce the engine.**
+The V2 Solenoid Engine is a custom-designed electromechanical engine that converts electrical energy into rotational mechanical motion using electromagnetic actuation. Instead of combustion, the engine uses solenoids to generate magnetic fields that pull ferromagnetic plungers inside cylindrical sleeves, producing linear motion. This motion is transferred through a yoke and crankshaft mechanism that converts the linear movement into continuous rotation, similar to the working principle of a traditional piston engine.
+
+
 
 ---
 
 # Project Overview
 
-The V2 Solenoid Engine operates using two electromagnetic cylinders arranged around a crankshaft.  
-Each cylinder contains a coil and a soft-iron plunger. When current flows through the coil, the plunger is pulled inward. The motion is transferred through a yoke to a crankshaft, converting linear motion into rotational motion.
-
-A flywheel smooths the rotation while an ESP32 microcontroller controls coil timing based on crankshaft position detected by IR sensors.
-
-The system consists of three main subsystems:
-
-**Mechanical System**
-- Solenoid cylinders
-- Soft-iron plungers
-- Yokes
-- Crankshaft
-- Flywheel
-- Structural frame
-
-**Electronics**
-- ESP32 controller
-- MOSFET coil drivers
-- IR position sensors
-- Power supply and protection circuitry
-
-**Firmware**
-- Sensor reading
-- Coil activation timing
-- PWM control for solenoids
-
----
-
-# System Architecture
 
 
-IR Sensors → ESP32 → MOSFET Driver → Solenoid Coils → Plunger Motion → Crankshaft → Flywheel
+The entire mechanical system is designed in Autodesk Fusion, with structural components and mechanical components (except flywheel) are intended for 3D printing, while control electronics are built around an ESP32-DEVKIT-V1 featuring ESP32-WROOM-32 and  TCRT5000 IR position sensing.
 
 
-1. IR sensors detect crankshaft position.
-2. ESP32 determines when to energize a solenoid.
-3. MOSFET drivers switch current through the coil.
-4. Magnetic force pulls the plunger.
-5. The plunger moves a yoke attached to the crankshaft.
-6. The crankshaft rotates and the flywheel stabilizes motion.
+
+The current design features a two-cylinder (V2) configuration sharing a single crankshaft, which improves rotational balance and reduces dead zones during operation. A large flywheel is used to stabilize rotational inertia and maintain smooth motion between electromagnetic pulses. The entire mechanical system has been designed in CAD with a hybrid manufacturing approach: most structural components are intended for 3D printing, while high-stress parts such as the crankshaft and certain rotating elements are planned for CNC machining to ensure strength and precision.
+
+
+
+To control the engine’s timing, infrared reflective sensors monitor the position of the crankshaft and provide feedback to an ESP32 microcontroller, which determines when each solenoid should be energized. A custom PCB handles the electronics required for switching the high-current solenoid coils, integrating MOSFET drivers, power regulation, and sensor interfaces while separating high-power and low-voltage logic systems for stability.
+
+
+
+Together, the mechanical structure, sensing system, embedded controller, and power electronics form a programmable electromagnetic engine platform that allows experimentation with firing timing, control strategies, and electromechanical system design.
+
+The engine demonstrates:
+
+
+
+* Electromagnetic actuation
+* Crankshaft-based mechanical power conversion
+* Embedded timing control
+* Modular CAD-driven mechanical design
+* Hybrid manufacturing (3D printing + CNC)
+* MOFSET Switching
+
+
 
 ---
 
-# Mechanical System
 
-## Solenoid Cylinders
+
+# Core Concept
+
+
+
+A solenoid generates a magnetic field when current flows through its copper coil. A ferromagnetic plunger inside the solenoid is pulled toward the coil center.
+
+
+
+In this engine:
+
+
+
+1. **A microcontroller activates the solenoid coil based on the position of the crank**
+2. **Magnetic force pulls the ferromagnetic soft iron plunger**
+3. **The plunger drives the connecting rod connected to the crankshaft**
+4. **The crankshaft rotates**
+5. **A flywheel smooths rotational motion**
+6. **IR sensors detect crank position**
+7. **The controller switches coils again**
+
+
+
+This cycle produces **continuous rotation**, with two pistons firing periodically at 180 degrees.
+
+
+
+---
+
+
+
+# Key Features
+
+
+
+**Multi-Cylinder Mechanical Layout**
+
+The engine uses a **V2 configuration**, where two solenoid-driven cylinders operate on a shared crankshaft. This arrangement improves balance and reduces rotational dead zones, allowing smoother and more continuous motion.
+
+---
+
+**Electromagnetic Actuation**
+
+Each cylinder converts electrical energy into linear mechanical motion.
 
 Each cylinder contains:
 
-- Coil housing
-- Copper magnet wire winding
-- Soft iron plunger
-- Linear guide sleeve
+* Copper coil winding
+* Ferromagnetic plunger
+* Linear motion sleeve
 
-The plunger moves linearly inside the sleeve when the coil is energized.
-
----
-
-## Crankshaft
-
-The crankshaft converts linear plunger motion into rotation.
-
-Key components:
-
-- crank throws
-- shaft core
-- bearing journals
-- flywheel mount
-
-The crankshaft is designed to be **CNC machined** for strength and dimensional accuracy.
+When current flows through the coil, a magnetic field is generated that pulls the plunger inward. The plunger’s movement converts **magnetic attraction into controlled mechanical displacement**.
 
 ---
 
-## Flywheel
+**Crankshaft Mechanism**
 
-A heavy flywheel is mounted on the crankshaft.
+The crankshaft converts the linear motion of the plungers into rotational motion.
 
-Its purposes:
+Main components include:
 
-- increase rotational inertia
-- reduce stalling between pulses
-- smooth torque output
+* Crank pins
+* Yokes
+* Connecting linkages
 
----
-
-## Structural Frame
-
-The engine is supported by a rigid **exoskeleton frame** that:
-
-- holds the solenoid cylinders
-- supports crankshaft bearings
-- mounts sensors
-- maintains alignment between components
-
-Most structural components are designed for **3D printing**.
+The crankshaft geometry is intentionally **compact and shortened** to reduce friction losses and improve overall mechanical efficiency.
 
 ---
 
-# Electronics
+**Flywheel Stabilization**
 
-## Microcontroller
+A **large flywheel** is mounted on the crankshaft to stabilize rotation.
 
-**ESP32 DevKit V1**
+Its functions include:
 
-Functions:
+* Increasing rotational inertia
+* Reducing stalling between solenoid pulses
+* Smoothing torque output
 
-- reads crankshaft position sensors
-- controls solenoid activation timing
-- generates PWM signals
-- provides optional WiFi configuration interface
-
----
-
-## Position Sensors
-
-**TCRT5000 infrared reflective sensors**
-
-These sensors detect reflective markers attached to the rotating crankshaft.
-
-Sensor signals are connected to:
-
-
-GPIO34
-GPIO35
-
-
-These inputs are used for interrupt-based position detection.
+The flywheel helps maintain continuous rotation even when the solenoids are not actively pulling the plungers.
 
 ---
 
-## Solenoid Driver Circuit
+**Optical Position Sensing**
 
-Each solenoid coil is switched using a MOSFET stage.
+The engine uses **TCRT5000 infrared reflective sensors** to detect crankshaft position.
 
-Components:
+These sensors allow the control system to:
 
-- IRFZ44N MOSFET
-- TC4427A MOSFET gate driver
-- MBR3060PT flyback diode
+* Identify the rotational phase of the crankshaft
+* Trigger solenoids at the correct timing
+* Prevent mistimed coil activation
 
-The MOSFET switches the ground side of the solenoid coil while the positive side remains connected to the 24 V supply.
-
-Flyback diodes protect the MOSFETs from voltage spikes generated when the coil is switched off.
+This sensing system transforms the engine from a passive mechanism into an **actively controlled electromechanical system**.
 
 ---
 
-## Power System
+**Exoskeleton Structural Frame**
 
-Main power supply:
+The engine is supported by a rigid **exoskeleton frame** that holds the mechanical system together.
 
-**Mean Well LRS-450-24**
+The frame:
 
-Specifications:
+* Maintains alignment of cylinders
+* Supports bearings and shaft components
+* Prevents structural flexing
+* Provides mounting points for sensors and electronics
 
-- 24 V output
-- 18.8 Ampere output
-
-Two voltage domains are used:
-
-**24 V Power Rail**
-
-Used for:
-
-- solenoid coils
-- MOSFET switching stage
-
-**5 V Logic Rail**
-
-Used for:
-
-- ESP32
-- sensors
-- gate driver logic
+The exoskeleton also allows **modular modifications and easier maintenance**.
 
 ---
 
-# Manufacturing
+# Mechanical Design
 
-The engine uses **hybrid fabrication** combining additive manufacturing and CNC machining.
-
----
-
-## 3D Printed Parts
-
-Printed components include:
-
-- engine frame
-- solenoid sleeves
-- coil housings
-- sensor mounts
-- yokes
-- structural supports
-
-Recommended materials:
-
-- PLA (prototyping)
-- PETG or ABS (improved durability)
-
-All printable models are available in the **CAD / STL folder**.
+The mechanical system consists of several interacting components that convert electromagnetic actuation into rotational motion.
 
 ---
 
-## CNC Machined Parts
+**Solenoid Cylinder Assembly**
 
-Precision mechanical parts are intended for CNC machining.
+Each cylinder assembly contains:
 
-Examples:
+* Coil housing
+* Copper winding space
+* Plunger sleeve
+* Linear motion channel
 
-- crankshaft
-- metal shafts
-- some structural inserts if required
-
-Suggested service:
-
-
-https://jlcpcb.com/cnc-machining
-
+The sleeve guides the plunger along a fixed path and ensures proper alignment during motion.
 
 ---
 
-# Assembly Overview
+**Yoke Mechanism**
 
-A full assembly guide is available in:
+The yoke connects the plunger to the crankshaft and transfers the linear motion.
 
+The yoke geometry was thickened to:
 
-Assembly/assembly-guide.md
-
-
-General assembly sequence:
-
-1. Print all structural components.
-2. Install bearings into the engine frame.
-3. Insert the crankshaft and attach the flywheel.
-4. Install plungers and yokes.
-5. Wind copper magnet wire onto the solenoid housings.
-6. Mount the IR sensors.
-7. Install the control PCB.
-8. Connect solenoids, sensors, and power supply.
-9. Upload firmware to the ESP32 and test coil activation.
+* Increase structural strength
+* Provide sufficient space for coil windings
+* Reduce mechanical deformation during operation
 
 ---
 
-# Firmware
+**Crankshaft**
 
-Prototype firmware is provided in:
+The crankshaft assembly includes:
 
+* Crank throws
+* Bearing supports
+* Shaft core
+* Flywheel mount
 
-Firmware/solenoid_engine.ino
-
-
-Functions implemented:
-
-- PWM control of solenoids
-- crankshaft position detection
-- WiFi configuration interface
-- temperature safety cutoff
+The crank geometry was designed to minimize rotational inertia and reduce mechanical drag.
 
 ---
 
-## Flashing (Arduino IDE)
+**Structural Frame**
 
-1. Install ESP32 board support.
+The outer frame forms a rigid skeleton that supports the entire mechanical system.
 
-Add this URL to **Additional Boards Manager URLs**:
+It provides mounting locations for:
 
-
-https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-
-
-2. Install board package:
-
-
-Tools → Board Manager → esp32 → Install
-
-
-3. Select board:
-
-
-Tools → Board → ESP32 Dev Module
-
-
-4. Install libraries:
-
-
-ESPAsyncWebServer
-AsyncTCP
-
-
-5. Upload firmware and open the serial monitor at **115200 baud**.
+* Cylinder assemblies
+* Sensor placements
+* Bearing supports
+* Crankshaft alignment
 
 ---
 
-# Bill of Materials
+# Electronics Architecture
 
-A complete bill of materials is provided in:
-
-
-BOM/bill_of_materials.csv
-
-
-Components include:
-
-- ESP32 DevKit V1
-- TCRT5000 IR sensors
-- IRFZ44N MOSFETs
-- TC4427A MOSFET driver
-- MBR3060PT flyback diodes
-- copper magnet wire
-- bearings
-- power supply
-- fasteners
-- 3D printed structural components
-- CNC machined crankshaft
-
-Certain components are sourced locally and paid for by the creator to avoid unnecessary costs on the Hack Club grant.
+The electronics system coordinates solenoid activation and processes sensor input.
 
 ---
 
-# Wiring
+**Microcontroller**
 
-Electrical connections are documented in:
+The engine uses an **ESP32 DevKit V1** microcontroller.
 
+Responsibilities include:
 
-Electronics/
+* Reading sensor signals
+* Determining crankshaft position
+* Controlling solenoid activation timing
+* Executing control logic
 
+The microcontroller also enables future expansions such as telemetry and advanced control algorithms.
 
-Files include:
+---
 
-- KiCad schematic
-- PCB layout
-- wiring diagrams
+**Position Sensors**
 
-These files define all electrical connections between:
+Crankshaft position is detected using **TCRT5000 IR reflective sensors**.
 
-- ESP32
-- MOSFET driver
-- solenoid coils
-- IR sensors
-- power supply
+These sensors detect reflective markers attached to the rotating assembly and provide feedback necessary for correct timing of solenoid activation.
+
+---
+
+**Power System**
+
+The solenoid coils require high-current switching.
+
+The typical power architecture includes:
+
+* 24 V power supply
+* MOSFET switching stage
+* Flyback protection diodes
+* Capacitor banks for current stabilization
+
+These components allow safe and efficient control of the solenoid currents.
+
+---
+
+# Manufacturing Plan
+
+The project uses a **hybrid fabrication approach**, combining additive manufacturing with CNC machining.
+
+---
+
+**3D Printed Components**
+
+Most structural components are designed for **3D printing**, including:
+
+* Engine frame
+* Coil housings
+* Yokes
+* Sensor mounts
+* Structural supports
+
+Likely materials include:
+
+* PLA for early prototyping
+* PETG or ABS for stronger functional parts
+
+---
+
+**CNC Machined Components**
+
+Precision mechanical parts are planned to be manufactured using **CNC machining**, primarily through JLCMC.
+
+These parts include:
+
+* Crankshaft
+* Metal shafts
+* Mechanical fasteners
+* Possibly the flywheel
+
+CNC machining provides better tolerances, strength, and durability for rotating components.
+
+---
+
+# Software
+
+Firmware running on the ESP32 controls the engine operation.
+
+Primary functions include:
+
+* Sensor reading
+* Crankshaft rotation detection
+* Solenoid switching logic
+* Timing optimization
+
+Possible future features include:
+
+* RPM monitoring
+* Wireless control (Bluetooth)
+* Adaptive firing algorithms
+
+---
+
+# Bill of Materials (Overview)
+
+Major components used in the project include:
+
+* ESP32 DevKit V1
+* TCRT5000 IR sensors
+* Copper magnet wire
+* MOSFET drivers
+* Power diodes
+* Capacitors
+* Bearings
+* Metal shafts
+* 3D printed structural parts
+* CNC machined crankshaft
+
+A complete bill of materials is provided separately in **CSV format**.
 
 ---
 
 # Applications
 
-This project demonstrates principles useful for:
+Although primarily experimental, the engine demonstrates concepts useful in several areas:
 
-- electromechanical research
-- educational demonstrations
-- actuator design
-- embedded control systems
-- experimental engine architectures
+* Electromechanical research
+* Educational demonstrations
+* Alternative actuator systems
+* Embedded control systems
+* Mechanical prototyping
 
 ---
+
+# Development Platform
+
+This project is part of the **Hack Club Blueprint** program.
+
+Blueprint supports students building physical engineering projects by helping fund:
+
+* Manufacturing
+* Electronics
+* Prototyping components
+
+This support enables the development of complex hardware projects from concept to physical prototype.
+
+---
+
+# Assembly and Operation Guide — V2 Solenoid Engine
+
+This guide explains how to assemble, wire, and operate the V2 Solenoid Engine after printing the mechanical parts and manufacturing the PCB. Read the entire document before starting assembly.
+
+---
+
+# Safety Information
+
+This project uses **24V DC power** and contains **moving mechanical parts**.
+
+Follow these precautions:
+
+- Never power the system while assembling the mechanical structure.
+- Keep fingers, hair, and loose clothing away from the crankshaft and flywheel while running.
+- Always use a **regulated 24V power supply** capable of supplying adequate current.
+- Ensure correct polarity when connecting the power supply.
+- Disconnect power immediately if components become excessively hot or behave unexpectedly.
+- Do not run the engine unattended.
+
+---
+
+# Required Components
+
+All required components are listed in the Bill of Materials:
+
+**Bill of Materials/V2 Bill of Materials.csv**
+
+This includes:
+
+- 3D printed mechanical parts
+- CNC machined components
+- Fasteners
+- Solenoids
+- PCB and electronic components
+- ESP32 microcontroller
+- Power supply
+
+---
+
+# Tools Required
+
+Typical tools required for assembly include:
+
+- Hex keys / Allen keys
+- Screwdrivers
+- Small wrench or socket set
+- Soldering iron (if assembling PCB manually)
+- Wire cutters and strippers
+- Threadlocker (recommended for high-vibration components)
+
+---
+
+# Mechanical Assembly
+
+Follow these general steps to assemble the mechanical structure.
+
+### 1. Frame Assembly
+- Assemble the main frame using the 3D printed structural parts.
+- Secure all frame pieces using the specified fasteners from the BOM.
+- Ensure the frame is rigid and square.
+
+### 2. Crankshaft and Flywheel
+- Install the crankshaft into the frame supports.
+- Attach the flywheel to the crankshaft.
+- Verify that the shaft rotates freely with minimal friction.
+
+### 3. Piston and Connecting Rod
+- Attach the connecting rod to the crankshaft.
+- Install the piston assembly.
+- Ensure the piston moves smoothly through its full range of motion.
+
+### 4. Solenoid Mounting
+- Mount the solenoid in the designated bracket.
+- Align the solenoid plunger with the piston linkage.
+- Ensure the plunger moves freely and does not bind.
+
+### 5. Final Mechanical Check
+- Rotate the crankshaft manually.
+- Confirm the full mechanism moves smoothly.
+- Verify that no parts collide or rub excessively.
+
+---
+
+# PCB Installation
+
+The PCB design files are located in:
+
+**PCBA/**
+
+Files included:
+
+- KiCad project
+- PCB layout
+- schematic
+- gerbers
+- STEP model
+
+### PCB Mounting
+- Secure the PCB to the frame using the provided mounting holes.
+- Ensure the board is isolated from metal surfaces if necessary.
+- Maintain airflow around the board for cooling.
+
+---
+
+# Wiring
+
+The full wiring schematic and diagram are provided here:
+
+**Media/V2 Solenoid Engine Schematic and Wiring.pdf**
+
+Follow that diagram carefully when making connections.
+
+Typical wiring connections include:
+
+- **24V Power Input**
+- **Solenoid output from PCB**
+- **Sensor connections**
+- **ESP32 connections**
+
+Ensure:
+
+- Correct polarity on all power connections
+- Secure connections
+- No exposed conductors
+
+---
+
+# Firmware Installation
+
+Firmware source code is located at:
+
+**Firmware/V2 Solenoid Engine Firmware.cpp**
+
+To flash the firmware:
+
+1. Install the Arduino IDE.
+2. Install the **ESP32 board package**.
+3. Open the firmware file.
+4. Select the correct ESP32 board and port.
+5. Upload the firmware to the microcontroller.
+
+After flashing, disconnect USB if powering externally.
+
+---
+
+# Operation
+
+After the engine is fully assembled and wired:
+
+1. Ensure the crankshaft rotates freely.
+2. Verify all wiring connections.
+3. Connect the **24V power supply**.
+4. Power the system.
+
+The firmware will drive the solenoid according to the programmed timing, causing the piston to actuate and rotate the crankshaft.
+
+The flywheel stabilizes the rotation and maintains momentum between solenoid pulses.
+
+---
+
+# Expected Behavior
+
+When operating correctly:
+
+- The engine should begin rotating shortly after power is applied.
+- The flywheel should maintain smooth rotational motion.
+- The solenoid should actuate in synchronization with the crankshaft motion.
+
+Performance depends on:
+
+- Supply voltage stability
+- Mechanical friction
+- Solenoid characteristics
+- Firmware timing parameters
+
+---
+
+# Troubleshooting
+
+If the engine does not operate correctly:
+
+### Engine does not start
+- Verify 24V power supply is connected.
+- Confirm correct wiring according to the schematic.
+- Ensure firmware was successfully flashed.
+
+### Solenoid does not activate
+- Check PCB connections.
+- Verify the solenoid wiring.
+- Confirm correct ESP32 operation.
+
+### Engine stalls or runs poorly
+- Inspect mechanical alignment.
+- Check for excessive friction.
+- Ensure solenoid plunger moves freely.
+
+### Excessive heat
+- Disconnect power immediately.
+- Inspect wiring and current draw.
+- Verify the solenoid is not being continuously energized.
+
+---
+
+# Additional Files
+
+Relevant files in the repository:
+
+- **CAD/V2 Solenoid Engine v10.f3d** — Fusion 360 source model  
+- **CAD/V2 Solenoid Engine v10.step** — universal 3D model  
+- **PCBA/** — PCB design and manufacturing files  
+- **Bill of Materials/V2 Bill of Materials.csv** — full component list  
+- **Media/** — renders, PCB images, and wiring diagram  
+- **Firmware/V2 Solenoid Engine Firmware.cpp** — ESP32 firmware
+
+---
+
+# Final Notes
+
+Before operating the engine for extended periods, perform several short test runs to ensure mechanical stability and safe electrical behavior.
+
+Regularly inspect fasteners, moving components, and electrical connections to maintain safe operation.
+

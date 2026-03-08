@@ -7,7 +7,7 @@ Unlike combustion engines, this system converts electrical energy into rotationa
 
 The entire mechanical system is designed in CAD, with structural components intended for **3D printing and CNC machining**, while control electronics are built around an **ESP32 microcontroller** and **IR position sensing**.
 
-Note: There is no assembly guide yet. It wll be added after the project is approved, and then it is made.
+Note: There is no assembly guide yet. It will be added after the project is approved, and then it is made.
 ---
 
 # Project Overview

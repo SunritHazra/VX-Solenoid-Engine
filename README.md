@@ -284,8 +284,28 @@ Major components include:
 - CNC machined crankshaft
 
 A full BOM is provided separately in CSV format.
+Note: Certain parts are being sourced locally and are being paid by the creator, making if firstly noy possible to add any links and more importantly making it unnecessary to add any cost in the BOM that is to be granted from HCB.
 
 ---
+
+## Firmware
+
+Prototype firmware for ESP32 (solenoid_engine.ino)—implements PWM phasing (GPIO25/26 via TC4427A), sensor interrupts (GPIO34/35), WiFi tuning ("Solenoid_AP" AP, 192.168.4.1 browser), and temp cutoff (GPIO36 NTC >80°C). Untested; flash for bench validation.
+
+### Flashing (Arduino IDE)
+1. Install ESP32 package: File → Preferences → Additional URLs: `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`. Tools → Board Manager → "esp32" → Install.
+2. Board: Tools → Board → ESP32 Arduino → ESP32 Dev Module. Port: Your USB.
+3. Libraries: Manage Libraries → Install ESPAsyncWebServer, AsyncTCP.
+4. Upload: Connect ESP32 to USB, open .ino, Ctrl+U. Baud 115200 for Serial Monitor (debug: "Firmware Starting...").
+5. Test: Serial shows status; WiFi connect for sliders (duty 0–40%, freq 1–5 kHz).
+
+For PlatformIO (VS Code): Use attached platformio.ini.
+
+---
+
+## Wiring & Connections
+
+Schematic (.kicad_sch) covers PCB internals and all connections.
 
 # Applications
 

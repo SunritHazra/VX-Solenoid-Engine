@@ -1,26 +1,25 @@
-# V2 Solenoid Engine
+# VX Solenoid Engine — V2 Solenoid Engine
 
 
+
+The project *"V2 Solenoid Engine"* is the second project of the long-term vision of "VX Solenoid Engine", which aims to build progressive solenoid engines with real engineering and proper planning. I have designed and completed the V1 Solenoid Engine before which was the prototype, and I have a partially deisgned V10 Solenoid Engine with the help of an engineer from United Kingdom.
 
 The V2 Solenoid Engine is a custom-designed electromechanical engine that converts electrical energy into rotational mechanical motion using electromagnetic actuation. Instead of combustion, the engine uses solenoids to generate magnetic fields that pull ferromagnetic plungers inside cylindrical sleeves, producing linear motion. This motion is transferred through a yoke and crankshaft mechanism that converts the linear movement into continuous rotation, similar to the working principle of a traditional piston engine.
 
+This project is made with the aim of creating an engine that works efficiently, consistently and with coolness (not talking about thermal coolness), wirelessly. The ESP32 allows the user to run the engine at any speed, control the firing, etcetera. The engine is intended to be controllable through a laptop wirelessly.
 
 
 ---
 
-# Project Overview
+## Project Overview
 
 
 
-The entire mechanical system is designed in Autodesk Fusion, with structural components and mechanical components (except flywheel) are intended for 3D printing, while control electronics are built around an ESP32-DEVKIT-V1 featuring ESP32-WROOM-32 and  TCRT5000 IR position sensing.
+The entire mechanical system is designed in Autodesk Fusion and the PCBA was designed in KiCad, with structural components and mechanical components (except flywheel) are intended for 3D printing, while control electronics are built around an ESP32-DEVKIT-V1 featuring ESP32-WROOM-32 and  TCRT5000 IR position sensing. The flywheel has to be as heavy as possible, so it is better to CNC machine it despite the cost. A large flywheel is used to stabilize rotational inertia and maintain smooth motion between electromagnetic pulses. The engine is powered by a Mean Well LRS-450-24, that gives an output of 24 volts and 18.8 amperes.
 
 
 
-The current design features a two-cylinder (V2) configuration sharing a single crankshaft, which improves rotational balance and reduces dead zones during operation. A large flywheel is used to stabilize rotational inertia and maintain smooth motion between electromagnetic pulses. The entire mechanical system has been designed in CAD with a hybrid manufacturing approach: most structural components are intended for 3D printing, while high-stress parts such as the crankshaft and certain rotating elements are planned for CNC machining to ensure strength and precision.
-
-
-
-To control the engine’s timing, infrared reflective sensors monitor the position of the crankshaft and provide feedback to an ESP32 microcontroller, which determines when each solenoid should be energized. A custom PCB handles the electronics required for switching the high-current solenoid coils, integrating MOSFET drivers, power regulation, and sensor interfaces while separating high-power and low-voltage logic systems for stability.
+The current design features a two-cylinder (V2) configuration sharing a single crankshaft, firing at 180 degrees, which improves rotational balance and reduces dead zones during operation. To control the engine’s timing, infrared reflective sensors monitor the position of the crankshaft and provide feedback to an ESP32 microcontroller, which determines when each solenoid should be energized (when the power should be on). A custom PCB handles the electronics (except the SMPS) required for switching the high-current solenoid coils, integrating MOSFET drivers, power regulation, and sensor interfaces while separating high-power and low-voltage logic systems for stability.
 
 
 
@@ -43,19 +42,19 @@ The engine demonstrates:
 
 
 
-# Core Concept
+## Core Concept
 
 
 
-A solenoid generates a magnetic field when current flows through its copper coil. A ferromagnetic plunger inside the solenoid is pulled toward the coil center.
+A solenoid is an electromechanical device that generates a magnetic field when current flows through its copper coil. A ferromagnetic plunger inside the solenoid is pulled toward the coil center. I just doubled it so that it looks more cool, and is more loud (really). 
 
 
 
-In this engine:
+In this engine, this is what happens fundamentally:
 
 
 
-1. **A microcontroller activates the solenoid coil based on the position of the crank**
+1. **A microcontroller (ESP32) activates the solenoid coil based on the position of the crank**
 2. **Magnetic force pulls the ferromagnetic soft iron plunger**
 3. **The plunger drives the connecting rod connected to the crankshaft**
 4. **The crankshaft rotates**
@@ -343,20 +342,6 @@ Although primarily experimental, the engine demonstrates concepts useful in seve
 
 ---
 
-# Development Platform
-
-This project is part of the **Hack Club Blueprint** program.
-
-Blueprint supports students building physical engineering projects by helping fund:
-
-* Manufacturing
-* Electronics
-* Prototyping components
-
-This support enables the development of complex hardware projects from concept to physical prototype.
-
----
-
 # Assembly and Operation Guide — V2 Solenoid Engine
 
 This guide explains how to assemble, wire, and operate the V2 Solenoid Engine after printing the mechanical parts and manufacturing the PCB. Read the entire document before starting assembly.
@@ -365,7 +350,7 @@ This guide explains how to assemble, wire, and operate the V2 Solenoid Engine af
 
 # Safety Information
 
-This project uses **24V DC power** and contains **moving mechanical parts**.
+This project uses **24V DC power**, **18.8 A** and contains **fast moving mechanical parts**.
 
 Follow these precautions:
 

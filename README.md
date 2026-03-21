@@ -8,6 +8,7 @@ The V2 Solenoid Engine is a custom-designed electromechanical engine that conver
 
 This project is made with the aim of creating an engine that works efficiently, consistently and with coolness (not talking about thermal coolness), wirelessly. The ESP32 allows the user to run the engine at any speed, control the firing, etcetera. The engine is intended to be controllable through a laptop wirelessly.
 
+<img width="2001" height="1125" alt="image" src="https://github.com/user-attachments/assets/ff8a72e2-462e-4075-9503-66f548753127" />
 
 ---
 

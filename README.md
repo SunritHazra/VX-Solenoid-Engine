@@ -395,3 +395,4 @@ Relevant files in the repository:
 
 Before operating the engine for extended periods, perform several short test runs to ensure mechanical stability and safe electrical behavior, because you are basically playing with 18.8 amperes and 24 volts, just for fun (maybe).  
 Regularly inspect fasteners, moving components, and electrical connections to maintain safe operation, cause the thing vibrates, A LOT!
+By the way, the safety guidelines are written based on real experience when the V1 Solenoid Engine was built.

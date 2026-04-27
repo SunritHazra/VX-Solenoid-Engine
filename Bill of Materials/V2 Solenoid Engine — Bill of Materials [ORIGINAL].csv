@@ -29,7 +29,7 @@ Mechanical Components,Plunger A,$-,"CNC machining would cost $38, so I decided t
 ,Crank B,$0.94,,"https://jlc3dp.com/3d-printing-quote?spm=Jlc3dp.Homepage.1006"
 ,Axle,$0.94,,"https://jlc3dp.com/3d-printing-quote?spm=Jlc3dp.Homepage.1006"
 ,Flywheel,$65.74,"The flywheel ideally needs to be 1.5 kg, but I reduced it to 1 kg to minimize CNC machining cost.","https://www.pcbway.com/rapid-prototyping/manufacture/?type=1"
-,Ball Bearings,$0.82,,"https://robu.in/product/radial-ball-bearing-626zz-for-3d-printer-robot-4pcs/"
+,Ball Bearings,$0.82,,"https://robu.in/product/miniature-bearings-625zz"
 ,,$73.14,,
 Electronic Components,Mean Well LRS-450-24,$43.43,"I switched from the Mean Well LRS-600-24 (more expensive) to this model to reduce cost.","https://www.amazon.in/gp/product/B0CH4YY722/ref=ewc_pr_img_1?smid=A13K6Y4N7NSFDR&psc=1"
 ,Copper Wire [1],$16.45,"50 m needed because I want more turns for lower current and reduced heat.","https://www.amazon.in/gp/product/B07GTX1Z32/ref=ewc_pr_img_1?smid=AP7MBNLZTN3FQ&psc=1"
